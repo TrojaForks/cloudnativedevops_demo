@@ -1,0 +1,63 @@
+
+$ docker image build --target build --tag demo:test .
+Sending build context to Docker daemon  19.97kB
+Step 1/5 : FROM golang:1.17-alpine AS build
+ ---> 270c4f58750f
+Step 2/5 : RUN apk add --update --no-cache gcc git build-base
+ ---> Using cache
+ ---> 26a2ac0f18e4
+Step 3/5 : WORKDIR /src/
+ ---> Using cache
+ ---> 3860185b47b9
+Step 4/5 : COPY main*.go go.* /src/
+ ---> Using cache
+ ---> 8272ff8c4807
+Step 5/5 : RUN CGO_ENABLED=0 go build -o /bin/demo
+ ---> Using cache
+ ---> 6cbb5c9e96e5
+Successfully built 6cbb5c9e96e5
+Successfully tagged demo:test
+
+
+
+$ docker container run demo:test go test
+PASS
+ok  	github.com/cloudnativedevops/demo/hello-cloudbuild	0.007s
+
+
+$ PROJECT_ID=juharov
+$ COMMIT_SHA=6cbb5c9e96e5
+
+$ docker image build --tag gcr.io/${PROJECT_ID}/demo:${COMMIT_SHA} .
+Sending build context to Docker daemon  19.97kB
+Step 1/8 : FROM golang:1.17-alpine AS build
+---> 270c4f58750f
+Step 2/8 : RUN apk add --update --no-cache gcc git build-base
+---> Using cache
+---> 26a2ac0f18e4
+Step 3/8 : WORKDIR /src/
+---> Using cache
+---> 3860185b47b9
+Step 4/8 : COPY main*.go go.* /src/
+---> Using cache
+---> 8272ff8c4807
+Step 5/8 : RUN CGO_ENABLED=0 go build -o /bin/demo
+---> Using cache
+---> 6cbb5c9e96e5
+Step 6/8 : FROM scratch
+---> 
+Step 7/8 : COPY --from=build /bin/demo /bin/demo
+---> 15982acebc1b
+Step 8/8 : ENTRYPOINT ["/bin/demo"]
+---> Running in 12d555f2fe56
+Removing intermediate container 12d555f2fe56
+---> ccd84c8017d7
+Successfully built ccd84c8017d7
+Successfully tagged gcr.io/juharov/demo:6cbb5c9e96e5
+
+
+$ helm template ./k8s/demo/| kubeval
+PASS - demo/templates/service.yaml contains a valid Service (demo-service)
+PASS - demo/templates/deployment.yaml contains a valid Deployment (demo)
+
+
