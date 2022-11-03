@@ -3,7 +3,7 @@ name: Go hello package
 on: [push]
 
 jobs:
-  buildi-container:
+  build:
 
     runs-on: ubuntu-latest
     steps:
