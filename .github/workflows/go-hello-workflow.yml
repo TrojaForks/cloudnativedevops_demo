@@ -20,4 +20,7 @@ jobs:
       - name: Tag Image
         run: docker image tag myhello:1.0 juharov/myhello:1.0
 
+      - name: Push Image
+        run: docker image push docker.io/juharov/myhello:1.0
+
 
