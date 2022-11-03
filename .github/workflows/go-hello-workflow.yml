@@ -15,5 +15,9 @@ jobs:
           go-version: 1.17
 
       - name: Build
-        run: docker image build -t myhello ./hello
+        run: docker image build -t myhello:1.0 ./hello
+
+      - name: Tag Image
+        run: docker image tag myhello:1.0 juharov/myhello:1.0
+
 
