@@ -15,8 +15,5 @@ jobs:
           go-version: 1.15
 
       - name: Build
-        run: go build -v ./../../hello
-
-      - name: Test
-        run: go test -v ./../../hello
+        run: docker image build -t myhello -v ../../hello
 
