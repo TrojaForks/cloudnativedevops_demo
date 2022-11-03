@@ -27,7 +27,7 @@ jobs:
         id: meta
         uses: docker/metadata-action@v4
         with:
-          images: plix1014/myhello
+          images: ghcr.io/plix1014/myhello
 
 
       - name: Build and push
