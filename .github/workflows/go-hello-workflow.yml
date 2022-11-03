@@ -1,4 +1,4 @@
-name: Go package
+name: Go hello package
 
 on: [push]
 
@@ -15,8 +15,8 @@ jobs:
           go-version: 1.15
 
       - name: Build
-        run: go build -v ./...
+        run: go build -v ./../../hello
 
       - name: Test
-        run: go test -v ./...
+        run: go test -v ./../../hello
 
